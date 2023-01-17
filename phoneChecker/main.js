@@ -4,40 +4,42 @@ function telephoneCheck(str) {
     const strInputOnlyNumbersSize = strInputOnlyNumbers.length;
     const isUsCoutryPhoneNumber = strInputOnlyNumbers[0]==countryCode ? true : false;
 
-    if(strInputOnlyNumbersSize==11 &&
-        isUsCoutryPhoneNumber)
-    {
-        checkNumberFormatWithCoutryCode();
-    } else if(strInputOnlyNumbersSize==10) {
-        checkNumberFormatNoCountryCode();
-    } else {
-        return console.log(false);
-    }
-
     function checkNumberFormatWithCoutryCode() {
         const strInput = str.split(" ").join("");
-        if(!Number(strInput[0]) || strInput[0]<0) {
-            console.log("Primeiro caso falso");
-            console.log(strInput)
-        } else if(strInput[1]=="(" && strInput[5]==")") {
-            console.log("Caso verdadeiro ()");
-            console.log(strInput);
+        if(strInput[0]!="-" && strInput[1]=="(" && strInput[5]==")" && strInput[9]=="-" ||
+        strInput[0]!="-" && strInput[1]=="(" && strInput[5]==")" ||
+        strInput[0]!="-" && strInput[4]=="-" && strInput[8]=="-" ||
+        strInput[0]!="-" && strInput[7]=="-" ||
+        strInput[0]!="-" && Number(strInput) && Number(strInput)>0)
+        {
+            return true;
         } else {
-            console.log("Caso verdadeiro");
-            console.log(strInput);
+            return false;
         }
     }
 
     function checkNumberFormatNoCountryCode() {
         const strInput = str.split(" ").join("");
-        if(!Number(strInput[0]) || strInput[0]<0) {
-            console.log("Primeiro caso falso");
-            console.log(Number(strInput[0]));
+        if(Number(strInput) && Number(strInput>0) ||
+            strInput[0]=="(" && strInput[4]==")" && strInput[8]=="-" ||
+            strInput[3]=="-" && strInput[7]=="-") 
+        {
+            return true;
         } else {
-            console.log("Caso verdadeiro");
-            console.log(strInput);
+            return false;
         }
+
+    }
+
+    if(strInputOnlyNumbersSize==11 &&
+        isUsCoutryPhoneNumber)
+    {
+        return checkNumberFormatWithCoutryCode();
+    } else if(strInputOnlyNumbersSize==10) {
+        return checkNumberFormatNoCountryCode();
+    } else {
+        return false;
     }
 }
 
-telephoneCheck("1 (555) 555-5555");
+telephoneCheck("555-555-5555");
